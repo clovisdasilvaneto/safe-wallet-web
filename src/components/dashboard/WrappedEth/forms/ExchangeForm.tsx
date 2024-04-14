@@ -16,7 +16,7 @@ function ExchangeForm({ balance, onSubmit, submitLabel }: ExchangeFormProps) {
   const watchedBalance = watch('amount')
 
   return (
-    <Box display="flex" onSubmit={handleSubmit(onSubmit)} component="form" mb={3} gap={2}>
+    <Box display="flex" noValidate onSubmit={handleSubmit(onSubmit)} component="form" mb={3} gap={2}>
       <TextField
         type="number"
         placeholder={balance}

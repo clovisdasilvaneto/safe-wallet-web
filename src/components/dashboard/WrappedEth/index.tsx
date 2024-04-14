@@ -20,7 +20,7 @@ const WrappedEth = () => {
   const { ethBalance, wethBalance } = useWrappedBalances()
 
   const sendTransaction = (fn: any) => (data: { amount: number }) => {
-    const amount = parseUnits('0.00001', 18)
+    const amount = parseUnits(data.amount.toString(), 18)
 
     onTxSubmit(
       fn(amount, {
