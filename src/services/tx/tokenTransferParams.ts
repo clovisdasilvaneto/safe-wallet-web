@@ -16,6 +16,18 @@ const encodeERC20TransferData = (to: string, value: string): string => {
   return contractInterface.encodeFunctionData('transfer', [to, value])
 }
 
+export const encodeDepositData = () => {
+  const erc20Abi = ['function deposit()']
+  const contractInterface = new Interface(erc20Abi)
+  return contractInterface.encodeFunctionData('deposit', [])
+}
+
+export const encodeWithdrawData = (amount: bigint) => {
+  const erc20Abi = ['function withdraw(uint256 amount)']
+  const contractInterface = new Interface(erc20Abi)
+  return contractInterface.encodeFunctionData('withdraw', [amount])
+}
+
 const encodeERC721TransferData = (from: string, to: string, tokenId: string): string => {
   const erc721Abi = ['function safeTransferFrom(address from, address to, uint256 tokenId)']
   const contractInterface = new Interface(erc721Abi)

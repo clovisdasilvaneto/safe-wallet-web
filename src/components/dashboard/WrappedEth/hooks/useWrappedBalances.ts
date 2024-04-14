@@ -4,7 +4,7 @@ import useChainId from '@/hooks/useChainId'
 import { safeFormatUnits } from '@/utils/formatters'
 import { TokenType } from '@safe-global/safe-apps-sdk'
 import { useMemo } from 'react'
-import { WETH_ADDRESS, EMPTY_VALUE } from './constants'
+import { WETH_ADDRESS, EMPTY_VALUE } from '../constants'
 import { getWeb3ReadOnly } from '@/hooks/wallets/web3'
 import useSafeAddress from '@/hooks/useSafeAddress'
 import { Interface } from 'ethers'
@@ -46,7 +46,10 @@ const useWrappedBalances = () => {
     [balances],
   )
 
-  const [wethBalance, loadingBalance] = useAsync(() => fetchWETHBalance(address), [chainId, ethBalance, address])
+  const [wethBalance = EMPTY_VALUE, loadingBalance] = useAsync(
+    () => fetchWETHBalance(address),
+    [chainId, ethBalance, address],
+  )
 
   return { ethBalance, wethBalance, loading: loading || loadingBalance }
 }
