@@ -29,7 +29,7 @@ function ExchangeForm({ balance, onSubmit, submitLabel }: ExchangeFormProps) {
         })}
       />
 
-      <Button variant="contained" disabled={!watchedBalance} type="submit">
+      <Button variant="contained" disabled={!watchedBalance || !formState.isValid} type="submit">
         {submitLabel}
       </Button>
     </Box>
