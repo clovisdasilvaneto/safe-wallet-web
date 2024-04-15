@@ -9,7 +9,10 @@
 
 This branch contains the implementation for the Wrap/Unwrap ether as requested from the code challange.
 
-Before testing the wrap and unwrap functionality, depending on the network you're testing, you will need to
+**Points of improvement**
+
+- The way we get the user WETH balance is by looking to the `getBalance` function from the WETH contract. I saw we have a `useBalances` that returns all the token balances of a given user (as I understood), the ideal case here, would be removing this explict WETH contract call from the code and grab this balance from the `useBalances` hook. I was not able to do so because the weth balance was not appearing in there, which might be because I'm using a different contract address in the sepolia network to test the wrap/unwrap
+- The tests to verify the FE validation of the user balance was not updating the input for somereason, I've created all the tests and added a **TODO** comment in the ones which I was having problem to update the component using `fireEvent` -- I've also added a 'skip' command on the test cases with a TODO on top.
 
 ### Wrapping ether
 
