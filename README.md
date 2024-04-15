@@ -9,6 +9,13 @@
 
 This branch contains the implementation for the Wrap/Unwrap ether as requested from the code challange.
 
+- `WrappedEth/forms` - contains the forms that is used in the WrappedEth widget. So far we just have one but I like to keep this separation of concern in case we have different forms in this widget later.
+- `WrappedEth/forms/ExchangeForm` - I've removed the `Wrap/Unwrap` markup from the `WrappedEth` component in order to have a better separation of concerns and also a better reusability of the form, since the logic is pretty much the same I've moved it to `forms/ExchangeForm` folder.
+- `WrappedEth/hooks` - I've created this folder to put all the hooks that are being used in the `WrappedEth` widget.
+- `WrappedEth/hooks/useSafeTransactionFlow` - I've moved this hook to be inside `hooks` folder. Note that I've also added two functions outside the useSafeTransactionFlow function, because it is also part of the `useSafeTransaction` but doesn't uses any state dependency, so its better to keep it outside the react layer.
+- `WrappedEth/hooks/useWrappedBalances` - This hook returns the balances of `eth` and `weth`. This could be removed once I figure out how to also have the `weth` balance comming fmor the `useBalances` hook
+- Note that I've also added a small user behavior on the widget, which is to have the buttons disabled by default until user adds some balance in the input. If he/her enters a invalid value (a value greater than his/her balance), the button is not enabled and the user would see a invalid feedback. 😘
+
 **Points of improvement**
 
 - The way we get the user WETH balance is by looking to the `getBalance` function from the WETH contract. I saw we have a `useBalances` that returns all the token balances of a given user (as I understood), the ideal case here, would be removing this explict WETH contract call from the code and grab this balance from the `useBalances` hook. I was not able to do so because the weth balance was not appearing in there, which might be because I'm using a different contract address in the sepolia network to test the wrap/unwrap
