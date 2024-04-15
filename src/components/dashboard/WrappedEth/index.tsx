@@ -3,9 +3,11 @@ import { Card, WidgetBody, WidgetContainer } from '../styled'
 import useSafeTransactionFlow, { unwrapEth, wrapEth } from './hooks/useSafeTransactionFlow'
 import useBalances from '@/hooks/useBalances'
 import { parseUnits } from 'ethers'
-import { WETH_ADDRESS } from './constants'
+import { WETH_ADDRESS_MAP } from './constants'
 import useWrappedBalances from './hooks/useWrappedBalances'
 import WrapEtherForm from './forms/ExchangeForm'
+import useChainId from '@/hooks/useChainId'
+import { TWethAddressMap } from './types'
 
 const LoadingWrappedWidget = () => (
   <>
@@ -17,6 +19,7 @@ const LoadingWrappedWidget = () => (
 const WrappedEth = () => {
   const onTxSubmit = useSafeTransactionFlow()
   const { loading } = useBalances()
+  const chainId = useChainId() as keyof TWethAddressMap
   const { ethBalance, wethBalance } = useWrappedBalances()
 
   const sendTransaction = (fn: any) => (data: { amount: number }) => {
@@ -24,7 +27,7 @@ const WrappedEth = () => {
 
     onTxSubmit(
       fn(amount, {
-        to: WETH_ADDRESS,
+        to: WETH_ADDRESS_MAP[chainId],
       }),
     )
   }

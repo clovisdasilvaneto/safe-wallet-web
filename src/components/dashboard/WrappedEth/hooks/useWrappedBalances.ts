@@ -4,12 +4,13 @@ import useChainId from '@/hooks/useChainId'
 import { safeFormatUnits } from '@/utils/formatters'
 import { TokenType } from '@safe-global/safe-apps-sdk'
 import { useMemo } from 'react'
-import { WETH_ADDRESS, EMPTY_VALUE } from '../constants'
+import { WETH_ADDRESS_MAP, EMPTY_VALUE } from '../constants'
 import { getWeb3ReadOnly } from '@/hooks/wallets/web3'
 import useSafeAddress from '@/hooks/useSafeAddress'
 import { Interface } from 'ethers'
+import { TWethAddressMap } from '../types'
 
-const fetchWETHBalance = async (safeAddress: string): Promise<string> => {
+const fetchWETHBalance = async (safeAddress: string, chainId: keyof TWethAddressMap): Promise<string> => {
   try {
     const tokenInterface = new Interface(['function balanceOf(address _owner) public view returns (uint256 balance)'])
     const web3ReadOnly = getWeb3ReadOnly()
@@ -17,7 +18,7 @@ const fetchWETHBalance = async (safeAddress: string): Promise<string> => {
     if (!web3ReadOnly) return EMPTY_VALUE
 
     const wethHexBalance = await web3ReadOnly.call({
-      to: WETH_ADDRESS,
+      to: WETH_ADDRESS_MAP[chainId],
       data: tokenInterface.encodeFunctionData('balanceOf', [safeAddress]),
     })
 
@@ -47,7 +48,7 @@ const useWrappedBalances = () => {
   )
 
   const [wethBalance = EMPTY_VALUE, loadingBalance] = useAsync(
-    () => fetchWETHBalance(address),
+    () => fetchWETHBalance(address, chainId as keyof TWethAddressMap),
     [chainId, ethBalance, address],
   )
 
